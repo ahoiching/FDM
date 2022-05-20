@@ -27,9 +27,6 @@ current_objective_coefficients=[]
   
 ################################################################################
 ################################################################################
-#-----------------------------Flux decomposition-------------------------------#
-
-################################################################################
 #----------------------Summary for flux decomposition--------------------------#
 def Get_yield_flux_functional_gene_decomposition_from_file(file_path):
   FBA_model=cobra.io.load_json_model(file_path)
@@ -68,10 +65,10 @@ def Get_yield_flux_functional_gene_decomposition(FBA_model):
         coupling_matrix[flux_modes.columns=='ATPM']=(
           flux_modes.loc['AKGDH']/flux_modes['ATPM']['AKGDH'])
     else:
-      warnings.warn("Warning...........Message")
+      warnings.warn("We cannot find an appropriate coupling matrix, either AKGDH or EX_o2_e is not carrying any fluxes. You may need to find your own coupling matrix to fix this")
       coupling_matrix=np.diag(np.ones(len(flux_modes.columns)))
   except:
-    warnings.warn("Warning...........Message")
+    warnings.warn("We cannot find an appropriate coupling matrix. You may need to find your own coupling matrix to fix this")
     coupling_matrix=np.diag(np.ones(len(flux_modes.columns)))
 
   ### 4. Coupling the base fluxes (energy compensation), while decoupling the flux modes,
@@ -90,6 +87,8 @@ def Get_yield_flux_functional_gene_decomposition(FBA_model):
   return (flux_modes, flux_modes_cmat, flux_decomposition_cmat, functional_decomposition,
           gene_expressions_decomposition)
 
+################################################################################
+#------------------------Detailed function definitions-------------------------#
 # The loading model function, input: path of the COBRApy FBA model in .json format.
 def Load_json_model(file_path):
   FBA_model=cobra.io.load_json_model(file_path)
@@ -258,12 +257,8 @@ def Run_flux_decomposition(stoi_mat,
 
   demand_fluxes=np.array(demand_fluxes)
   der_reactions_id=np.array(der_reactions_id)
-  #We may need 1e-3
-  if solver=='GUROBI':
-    derivatives=demand_fluxes*1e-3
-  else:
-    derivatives=demand_fluxes*1e-1
-
+   
+  derivatives=demand_fluxes*1e-3
   demand_fluxes_mat=(np.array([demand_fluxes for i in range(len(demand_fluxes))])
                     +np.diag(derivatives))
 
