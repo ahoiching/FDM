@@ -1,4 +1,4 @@
 # FAM
 Functional Analysis of Metabolism
 
-See the [Colab Notebook](https://google.com)
+To get started, see the [Colab Notebook](https://github.com/ahoiching/FAM/blob/main/FAM_example.ipynb).
