@@ -66,6 +66,7 @@ def Get_yield_flux_functional_gene_decomposition(FBA_model):
           flux_modes.loc['AKGDH']/flux_modes['ATPM']['AKGDH'])
     elif ((flux_modes['__FBA_SOLUTIONS__']['EX_o2_e']==0) and 
          (flux_modes['ATPM']['EX_etoh_e']>0)):
+        print('\n..\nThe condition is identified as anaerobic E.coli..\n..\n..\n')
         coupling_matrix=np.diag(np.ones(len(flux_modes.columns)))
         coupling_matrix[flux_modes.columns=='ATPM']=(
         flux_modes.loc['EX_etoh_e']/flux_modes['ATPM']['EX_etoh_e'])
