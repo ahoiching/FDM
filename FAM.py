@@ -64,8 +64,13 @@ def Get_yield_flux_functional_gene_decomposition(FBA_model):
         coupling_matrix=np.diag(np.ones(len(flux_modes.columns)))
         coupling_matrix[flux_modes.columns=='ATPM']=(
           flux_modes.loc['AKGDH']/flux_modes['ATPM']['AKGDH'])
+    elif ((flux_modes['__FBA_SOLUTIONS__']['EX_o2_e']==0) and 
+         (flux_modes['ATPM']['EX_etoh_e']>0)):
+        coupling_matrix=np.diag(np.ones(len(flux_modes.columns)))
+        coupling_matrix[flux_modes.columns=='ATPM']=(
+        flux_modes.loc['EX_etoh_e']/flux_modes['ATPM']['EX_etoh_e'])
     else:
-      warnings.warn("We cannot find an appropriate coupling matrix, either AKGDH or EX_o2_e is not carrying any fluxes. You may need to find your own coupling matrix to fix this")
+      warnings.warn("We cannot find an appropriate coupling matrix, either AKGDH (aerobic) or EX_etoh_e (anaerobic) is not carrying any fluxes. You may need to find your own coupling matrix to fix this")
       coupling_matrix=np.diag(np.ones(len(flux_modes.columns)))
   except:
     warnings.warn("We cannot find an appropriate coupling matrix. You may need to find your own coupling matrix to fix this")
