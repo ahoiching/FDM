@@ -68,8 +68,14 @@ def Get_yield_flux_functional_gene_decomposition(FBA_model):
          (flux_modes['ATPM']['EX_etoh_e']>0)):
         print('\n..\nThe condition is identified as anaerobic E.coli..\n..\n..\n')
         coupling_matrix=np.diag(np.ones(len(flux_modes.columns)))
-        coupling_matrix[flux_modes.columns=='ATPM']=(
-        flux_modes.loc['EX_etoh_e']/flux_modes['ATPM']['EX_etoh_e'])
+        #coupling_matrix[flux_modes.columns=='ATPM']=(
+        #flux_modes.loc['EX_etoh_e']/flux_modes['ATPM']['EX_etoh_e'])
+        coupling_values=pd.concat([
+                                    flux_modes.loc['EX_etoh_e']/flux_modes['ATPM']['EX_etoh_e'],
+                                    flux_modes.loc['EX_ac_e']/flux_modes['ATPM']['EX_ac_e'],
+                                    flux_modes.loc['EX_for_e']/flux_modes['ATPM']['EX_for_e']
+                                  ],axis=1).min(axis=1)
+        coupling_matrix[flux_modes.columns=='ATPM']=coupling_values
     else:
       warnings.warn("We cannot find an appropriate coupling matrix, either AKGDH (aerobic) or EX_etoh_e (anaerobic) is not carrying any fluxes. You may need to find your own coupling matrix to fix this")
       coupling_matrix=np.diag(np.ones(len(flux_modes.columns)))
