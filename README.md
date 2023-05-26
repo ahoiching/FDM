@@ -1,5 +1,4 @@
 # FDM
-[![DOI](https://zenodo.org/badge/494231969.svg)](https://zenodo.org/badge/latestdoi/494231969)
 
 Functional Decomposition of Metabolism
 
