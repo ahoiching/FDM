@@ -1,5 +1,4 @@
 # FDM
-[![DOI](https://zenodo.org/badge/494231969.svg)](https://zenodo.org/badge/latestdoi/494231969)
 
 This repository contains the code to perform the Functional Decomposition of Metabolism (FDM) on a given [cobrapy](https://opencobra.github.io/cobrapy/) compatible metabolic model (in json format). The method and its implementation is described in: 
 
